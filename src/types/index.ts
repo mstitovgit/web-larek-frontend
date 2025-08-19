@@ -21,11 +21,6 @@ export interface IItemList {
 	items: IItem[];
 }
 
-export interface ICart {
-	total: number;
-	items: string[];
-}
-
 export interface IContactData {
 	email: string;
 	phone: string;
@@ -36,7 +31,7 @@ export interface IPaymentData {
 	payment: TPayment;
 }
 
-export type IOrder = ICart & IContactData & IPaymentData;
+export type IOrder = IContactData & IPaymentData;
 
 
 export interface IItemData {
@@ -45,16 +40,18 @@ export interface IItemData {
 	getItem(id: string): IItem;
 }
 
-export interface ICartData extends ICart {
-	addItem(id: string): void;
+export interface ICartData {
+	items:IItem[];
+	addItem(item: IItem): void;
 	removeItem(id: string): void;
 	hasItem(id: string): boolean;
 	getItemsLength(): number;
+	getTotal():number;
 	clear():void
 }
 
 export interface IOrderData extends IOrder{
 	setData(data:Partial<IOrder>):void;
-	validatePayment(): boolean;
-  validateContacts(): boolean;
+	validatePayment(): {valid: boolean, error:string};
+  validateContacts(): {valid: boolean, error:string};
 }
